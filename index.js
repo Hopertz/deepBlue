@@ -7,9 +7,11 @@ const server = http.createServer((req,res)=>{
     const path = parsedUrl.pathname
     const trimmedPath = path.replace(/^\/+|\/+$/g, '');
     const method = req.method;
+    const queryStringObject = parsedUrl.query;
+
     res.end('Hello World!');
 
-    console.log('Request received on path '+ trimmedPath + ' with method '+ method );
+    console.log('Request received on path '+ trimmedPath + ' with method '+ method+ ' and with these query parameters %s',queryStringObject);
 });
 
 server.listen(port,()=>{
