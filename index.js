@@ -1,7 +1,7 @@
 const http = require('http');
 const url =  require('url');
-const { callbackify } = require('util');
-const port = 3000
+const config = require('./config');
+
 const server = http.createServer((req,res)=>{
 
     const parsedUrl = url.parse(req.url,true);
@@ -42,8 +42,8 @@ const server = http.createServer((req,res)=>{
 
 });
 
-server.listen(port,()=>{
-    console.log('Server listening at port %s.',port);
+server.listen(config.port,()=>{
+    console.log(`Server listening at port ${config.port}`);
 });
 
 handlers = {};
