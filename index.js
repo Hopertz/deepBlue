@@ -30,7 +30,8 @@ const server = http.createServer((req,res)=>{
             statusCode = typeof(statusCode) === 'number' ? statusCode : 200; //
             payLoad = typeof(payLoad) !== 'object' ? {} : payLoad;
             payLoad = JSON.stringify(payLoad)
-
+            
+            res.setHeader('Content-Type','application/json')
             res.writeHead(statusCode);
             res.end(payLoad)
             console.log('Returning this response', statusCode,payLoad);
