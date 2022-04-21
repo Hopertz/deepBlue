@@ -1,5 +1,6 @@
 const http = require('http');
 const url =  require('url');
+const { callbackify } = require('util');
 const port = 3000
 const server = http.createServer((req,res)=>{
 
@@ -15,13 +16,28 @@ const server = http.createServer((req,res)=>{
     });
     req.on("end", () => {
         body = Buffer.concat(buffer).toString();
-    console.log('Request received on path '+ trimmedPath + ' with method '+ 
-        method+ ' and with these query parameters %s',queryStringObject);
-    console.log('Also with the following headers', headers)
-    console.log(`Request received with this payload: ${body}`);
+       
+        const choosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath] : handlers.notFound;
+
+        const data = {
+            'trimmedPath' : trimmedPath,
+            'queryStringObject' : queryStringObject,
+            'method' : method,
+            'payload':body,
+            'headers': headers,
+        }
+        choosenHandler(data,(statusCode,payLoad)=>{
+            statusCode = typeof(statusCode) === 'number' ? statusCode : 200; //
+            payLoad = typeof(payLoad) !== 'object' ? {} : payLoad;
+            payLoad = JSON.stringify(payLoad)
+
+            res.writeHead(statusCode);
+            res.end(payLoad)
+            console.log('Returning this response', statusCode,payLoad);
+        });
  });
 
-    res.end('Hello World!');
+ 
 
 });
 
@@ -29,4 +45,17 @@ server.listen(port,()=>{
     console.log('Server listening at port %s.',port);
 });
 
+handlers = {};
 
+handlers.sample = (statusCode,callback)=>{
+       callback(200,{'name': 'This is a sample'});
+
+};
+
+handlers.notFound = (statusCode,callback)=>{
+    callback(404);
+}
+
+router = {
+    'sample' : handlers.sample
+};
