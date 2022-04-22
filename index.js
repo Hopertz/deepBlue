@@ -65,15 +65,15 @@ httpsServer.listen(config.httpsPort,()=>{
 
 handlers = {};
 
-handlers.sample = (statusCode,callback)=>{
-       callback(200,{'name': 'This is a sample'});
+handlers.ping = (data,callback)=>{
+       callback(200);
 
 };
 
-handlers.notFound = (statusCode,callback)=>{
+handlers.notFound = (data,callback)=>{
     callback(404);
 }
 
 router = {
-    'sample' : handlers.sample
+    'ping' : handlers.ping
 };
