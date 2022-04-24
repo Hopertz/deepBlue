@@ -2,7 +2,7 @@ const http = require('http');
 const https = require('https');
 const url =  require('url');
 const config = require('./config');
-const fs = require('fs')
+const fs = require('fs');
 
 const httpServer = http.createServer((req,res)=>{
      unifiedServer(req,res);
@@ -41,13 +41,13 @@ const unifiedServer = (req,res) => {
             'headers': headers,
         }
         choosenHandler(data,(statusCode,payLoad)=>{
-            statusCode = typeof(statusCode) === 'number' ? statusCode : 200; //
+            statusCode = typeof(statusCode) === 'number' ? statusCode : 200; 
             payLoad = typeof(payLoad) !== 'object' ? {} : payLoad;
-            payLoad = JSON.stringify(payLoad)
+            payLoad = JSON.stringify(payLoad);
             
-            res.setHeader('Content-Type','application/json')
+            res.setHeader('Content-Type','application/json');
             res.writeHead(statusCode);
-            res.end(payLoad)
+            res.end(payLoad);
             console.log('Returning this response', statusCode,payLoad);
         });
  });
