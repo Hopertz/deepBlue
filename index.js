@@ -41,10 +41,10 @@ const unifiedServer = (req,res) => {
             'method' : method,
             'payload': helpers.parseJsonToObject(body),
             'headers': headers,
-        }
-
+        };
+     
         choosenHandler(data,(statusCode,payLoad)=>{
-
+            
             statusCode = typeof(statusCode) === 'number' ? statusCode : 200; 
             payLoad = typeof(payLoad) == 'object' ? payLoad : {};
             payLoad = JSON.stringify(payLoad);
@@ -71,4 +71,5 @@ httpsServer.listen(config.httpsPort,()=>{
 router = {
     'ping' : handlers.ping,
     'users' : handlers.users,
+    'tokens' : handlers.tokens,
 };
